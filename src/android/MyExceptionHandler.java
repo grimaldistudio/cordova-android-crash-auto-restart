@@ -22,15 +22,23 @@ public class MyExceptionHandler implements
                 
     }
 
-    public void uncaughtException(Thread thread, Throwable exception) {
+    public void uncaughtException(Thread thread, Throwable exception, Context context, int delay) {
             
-                
-                    
-        Intent intent = new Intent(myActivity, myActivityClass);
+       
+             if (delay == 0) {
+        delay = 1;
+    }
+    Log.e("", "restarting app");
+    Intent restartIntent = context.getPackageManager()
+            .getLaunchIntentForPackage(context.getPackageName() );
+    PendingIntent intent = PendingIntent.getActivity(
+            context, 0,
+            restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
+    System.exit(2);
             
-            AlarmManager mgr = (AlarmManager) getSystemService(myContext.ALARM_SERVICE);
-                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, Intent);
-                System.exit(2);
+      
             
         /*    
         intent.putExtra("crash", true);

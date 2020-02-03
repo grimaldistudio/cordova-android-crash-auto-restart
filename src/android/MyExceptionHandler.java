@@ -24,11 +24,15 @@ public class MyExceptionHandler implements
 
     public void uncaughtException(Thread thread, Throwable exception) {
             
-                AlarmManager mgr = (AlarmManager) getSystemService(myContext.ALARM_SERVICE);
+                
+                    
+        Intent intent = new Intent(myActivity, myActivityClass);
+            
+            AlarmManager mgr = (AlarmManager) getSystemService(myContext.ALARM_SERVICE);
                 mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, intent);
                 System.exit(2);
-        /*            
-        Intent intent = new Intent(myActivity, myActivityClass);
+            
+        /*    
         intent.putExtra("crash", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -29,7 +29,7 @@ public class MyExceptionHandler implements
     Intent restartIntent = myContext.getPackageManager()
             .getLaunchIntentForPackage(myContext.getPackageName() );
     PendingIntent intent = PendingIntent.getActivity(
-            context, 0,
+            myContext, 0,
             restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
     AlarmManager manager = (AlarmManager) myContext.getSystemService(myContext.ALARM_SERVICE);
     manager.set(AlarmManager.RTC, System.currentTimeMillis() + 1, intent);

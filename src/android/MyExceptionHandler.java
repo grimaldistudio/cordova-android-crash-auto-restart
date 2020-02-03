@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.util.Log;
 
 public class MyExceptionHandler implements
         java.lang.Thread.UncaughtExceptionHandler {

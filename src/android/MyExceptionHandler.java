@@ -29,7 +29,7 @@ public class MyExceptionHandler implements
         Intent intent = new Intent(myActivity, myActivityClass);
             
             AlarmManager mgr = (AlarmManager) getSystemService(myContext.ALARM_SERVICE);
-                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, intent);
+                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, Intent);
                 System.exit(2);
             
         /*    

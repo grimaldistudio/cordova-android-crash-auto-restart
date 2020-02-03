@@ -14,21 +14,17 @@ public class MyExceptionHandler implements
     private final Class<?> myActivityClass;
     private Activity myActivity;
            
-    public MyExceptionHandler(Activity a, Context context, Class<?> c, int delay) {
+    public MyExceptionHandler(Activity a, Context context, Class<?> c) {
 
         myContext = context;
         myActivityClass = c;
-        myActivity = a;
-        myDelay = delay;    
+        myActivity = a;         
                 
     }
 
     public void uncaughtException(Thread thread, Throwable exception) {
             
-       
-             if (myDelay == 0) {
-        myDelay = 1;
-    }
+                  
     Log.e("", "restarting app");
     Intent restartIntent = myContext.getPackageManager()
             .getLaunchIntentForPackage(myContext.getPackageName() );
@@ -36,7 +32,7 @@ public class MyExceptionHandler implements
             context, 0,
             restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
     AlarmManager manager = (AlarmManager) myContext.getSystemService(myContext.ALARM_SERVICE);
-    manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
+    manager.set(AlarmManager.RTC, System.currentTimeMillis() + 1, intent);
     System.exit(2);
             
       

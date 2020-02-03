@@ -14,14 +14,17 @@ public class MyExceptionHandler implements
     private final Class<?> myActivityClass;
     private Activity myActivity;
 
-    public MyExceptionHandler(Activity a, Context context, Class<?> c,  int delay) {
+    public MyExceptionHandler(Activity a, Context context, Class<?> c) {
 
         myContext = context;
         myActivityClass = c;
         myActivity = a;
+                
+    }
+
+    public void uncaughtException(Thread thread, Throwable exception, int delay) {
             
-            
-            if (delay == 0) {
+         if (delay == 0) {
                 delay = 1;
             }
             Log.e("", "restarting app");
@@ -34,9 +37,7 @@ public class MyExceptionHandler implements
             manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
             System.exit(2);
             
-    }
-
-    public void uncaughtException(Thread thread, Throwable exception) {
+            
 
         Intent intent = new Intent(myActivity, myActivityClass);
         intent.putExtra("crash", true);

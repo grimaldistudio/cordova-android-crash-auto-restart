@@ -13,7 +13,7 @@ public class MyExceptionHandler implements
     private final Context myContext;
     private final Class<?> myActivityClass;
     private Activity myActivity;
-
+           
     public MyExceptionHandler(Activity a, Context context, Class<?> c) {
 
         myContext = context;
@@ -22,23 +22,12 @@ public class MyExceptionHandler implements
                 
     }
 
-    public void uncaughtException(Thread thread, Throwable exception, int delay) {
+    public void uncaughtException(Thread thread, Throwable exception) {
             
-         if (delay == 0) {
-                delay = 1;
-            }
-            Log.e("", "restarting app");
-            Intent restartIntent = context.getPackageManager()
-                    .getLaunchIntentForPackage(context.getPackageName() );
-            PendingIntent intent = PendingIntent.getActivity(
-                    context, 0,
-                    restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
-            System.exit(2);
-            
-            
-
+                AlarmManager mgr = (AlarmManager) getSystemService(myContext.ALARM_SERVICE);
+                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, intent);
+                System.exit(2);
+        /*            
         Intent intent = new Intent(myActivity, myActivityClass);
         intent.putExtra("crash", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -53,6 +42,7 @@ public class MyExceptionHandler implements
 //        android.os.Process.killProcess(android.os.Process.myPid());
         myActivity.finish();
         System.exit(2);
+        */
     }
         
   

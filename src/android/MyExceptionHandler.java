@@ -14,11 +14,26 @@ public class MyExceptionHandler implements
     private final Class<?> myActivityClass;
     private Activity myActivity;
 
-    public MyExceptionHandler(Activity a, Context context, Class<?> c) {
+    public MyExceptionHandler(Activity a, Context context, Class<?> c,  int delay) {
 
         myContext = context;
         myActivityClass = c;
         myActivity = a;
+            
+            
+            if (delay == 0) {
+                delay = 1;
+            }
+            Log.e("", "restarting app");
+            Intent restartIntent = context.getPackageManager()
+                    .getLaunchIntentForPackage(context.getPackageName() );
+            PendingIntent intent = PendingIntent.getActivity(
+                    context, 0,
+                    restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
+            System.exit(2);
+            
     }
 
     public void uncaughtException(Thread thread, Throwable exception) {
@@ -39,18 +54,5 @@ public class MyExceptionHandler implements
         System.exit(2);
     }
         
-  public static void restart(Context context, int delay) {
-    if (delay == 0) {
-        delay = 1;
-    }
-    Log.e("", "restarting app");
-    Intent restartIntent = context.getPackageManager()
-            .getLaunchIntentForPackage(context.getPackageName() );
-    PendingIntent intent = PendingIntent.getActivity(
-            context, 0,
-            restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
-    System.exit(2);
-}
+  
 }

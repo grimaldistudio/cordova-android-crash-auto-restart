@@ -37,4 +37,19 @@ public class MyExceptionHandler implements
         myActivity.finish();
         System.exit(2);
     }
+        
+  public static void restart(Context context, int delay) {
+    if (delay == 0) {
+        delay = 1;
+    }
+    Log.e("", "restarting app");
+    Intent restartIntent = context.getPackageManager()
+            .getLaunchIntentForPackage(context.getPackageName() );
+    PendingIntent intent = PendingIntent.getActivity(
+            context, 0,
+            restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
+    System.exit(2);
+}
 }
